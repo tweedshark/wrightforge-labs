@@ -35,7 +35,7 @@ jobs:
           exclude: ".git*,.github*"
 
           # Force SFTP-only mode
-          sftp_only: truename: Deploy to EasyWP
+          sftp_only: true
 
 on:
   push:
