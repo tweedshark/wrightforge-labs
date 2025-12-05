@@ -12,6 +12,43 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Deploy via SFTP (EasyWP)
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          port: 22
+
+          # What to upload (your repo root)
+          local_path: "./"
+
+          # Where to upload on the server.
+          # Since your SFTP root in Cyberduck shows /wptbox and your folder is /wptbox/lab,
+          # "lab" here means "inside the login root, put files into the 'lab' folder".
+          remote_path: "lab"
+
+          # Don't delete anything on the server, just overwrite matching files
+          delete_remote_files: false
+
+          # Don't upload git metadata or the GitHub workflows themselves
+          exclude: ".git*,.github*"
+
+          # Force SFTP-only mode
+          sftp_only: truename: Deploy to EasyWP
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
       - name: Deploy via SFTP
         uses: appleboy/scp-action@v0.1.7
         with:
