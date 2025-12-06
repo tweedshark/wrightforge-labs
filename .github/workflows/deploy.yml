@@ -20,8 +20,8 @@ jobs:
           password: ${{ secrets.SFTP_PASS }}
           port: 22
 
-          # Local folder to upload (your repo)
-          local_path: "./"
+          # Local folder to upload (just the site)
+          local_path: "./site"
 
           # Folder inside your SFTP root
           remote_path: "lab"
