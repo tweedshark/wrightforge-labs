@@ -29,8 +29,5 @@ jobs:
           # Overwrite existing files but do not delete
           delete_remote_files: false
 
-          # Ignore git and workflow meta
-          exclude: ".git*,.github*"
-
           # Force pure SFTP mode only
           sftp_only: true
