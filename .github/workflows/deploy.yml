@@ -20,42 +20,17 @@ jobs:
           password: ${{ secrets.SFTP_PASS }}
           port: 22
 
-          # What to upload (your repo root)
+          # Local folder to upload (your repo)
           local_path: "./"
 
-          # Where to upload on the server.
-          # Since your SFTP root in Cyberduck shows /wptbox and your folder is /wptbox/lab,
-          # "lab" here means "inside the login root, put files into the 'lab' folder".
+          # Folder inside your SFTP root
           remote_path: "lab"
 
-          # Don't delete anything on the server, just overwrite matching files
+          # Overwrite existing files but do not delete
           delete_remote_files: false
 
-          # Don't upload git metadata or the GitHub workflows themselves
+          # Ignore git and workflow meta
           exclude: ".git*,.github*"
 
-          # Force SFTP-only mode
+          # Force pure SFTP mode only
           sftp_only: true
-
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Deploy via SFTP
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASS }}
-          port: 22
-          source: "./"
-          target: "/wptbox/lab"
-          rm: false
